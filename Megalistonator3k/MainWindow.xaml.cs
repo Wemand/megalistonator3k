@@ -1,14 +1,6 @@
 ﻿using System.IO;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Megalistonator3k
 {
@@ -116,7 +108,7 @@ namespace Megalistonator3k
             }
 
         }
-
+        
         private void Button_Click_2(object sender, RoutedEventArgs e)
         {
             foreach (var folder in titleFoldersList)
