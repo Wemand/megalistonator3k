@@ -17,17 +17,17 @@
             <RowDefinition Height="72*"/>
         </Grid.RowDefinitions>
         <ListBox x:Name="foldersList" HorizontalAlignment="Left" Height="380" Margin="9,30,0,0" VerticalAlignment="Top" Width="200" d:ItemsSource="{d:SampleData ItemCount=0}" SelectionChanged="ListofFolders_SelectionChanged" RenderTransformOrigin="0.632,0.212" Grid.RowSpan="2" Grid.Column="1"/>
-        <Button Content="Добавить" HorizontalAlignment="Left" Margin="9,10,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.434,-0.853" Click="Button_Click" Grid.Column="1"/>
+        <Button x:Name="addFolder" Content="Добавить" HorizontalAlignment="Left" Margin="9,10,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.434,-0.853" Click="Button_Click" Grid.Column="1"/>
         <TextBox x:Name="folderName" Margin="66,11,0,0" TextChanged="TextBox_TextChanged" BorderBrush="Black" InputScope="Default" Background="{x:Null}" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Left" Width="143" Grid.Column="1"/>
         <TextBox x:Name="addDescr" Margin="368,139,0,0" TextChanged="TextBox_TextChanged" BorderBrush="Black" InputScope="Default" Background="{x:Null}" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Left" Width="110" Grid.Row="1" Grid.Column="1"/>
         <TextBox x:Name="addName" Margin="234,139,0,0" TextChanged="TextBox_TextChanged" BorderBrush="Black" InputScope="Default" Background="{x:Null}" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Left" Width="112" Grid.Row="1" Grid.Column="1"/>
         <Button x:Name="addTitle" Content="Добавить тайтл" HorizontalAlignment="Left" Margin="304,169,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.434,-0.853" Width="108" Click="Button_Click_1" Grid.Row="1" Grid.Column="1"/>
         <ListBox x:Name="titleListWin" HorizontalAlignment="Left" Height="286" Margin="234,43,0,0" VerticalAlignment="Top" Width="228" d:ItemsSource="{d:SampleData ItemCount=0}" SelectionChanged="ListBox_SelectionChanged" RenderTransformOrigin="0.632,0.212" Grid.RowSpan="2" Grid.Column="1"/>
-        <TextBox x:Name="folderName_Копировать" Margin="257,122,0,0" TextChanged="TextBox_TextChanged" BorderBrush="White" InputScope="Default" Background="{x:Null}" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Left" Width="66" Grid.Row="1" Height="17" Text="Название" Grid.Column="1"/>
-        <TextBox x:Name="folderName_Копировать1" Margin="390,122,0,0" TextChanged="TextBox_TextChanged" BorderBrush="White" InputScope="Default" Background="{x:Null}" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Left" Width="66" Grid.Row="1" Height="17" Text="Описание" Grid.Column="1"/>
-        <Button Grid.Column="1" Content="Изменить" HorizontalAlignment="Left" Margin="29,164,0,0" Grid.Row="1" VerticalAlignment="Top" Height="18" Width="59" Click="Button_Click_2"/>
+        <TextBox x:Name="folderName_Копировать" Margin="257,122,0,0" TextChanged="TextBox_TextChanged" BorderBrush="White" InputScope="Default" Background="{x:Null}" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Left" Width="66" Grid.Row="1" Height="17" Text="Название" Grid.Column="1" IsEnabled="False"/>
+        <TextBox x:Name="folderName_Копировать1" Margin="390,122,0,0" TextChanged="TextBox_TextChanged" BorderBrush="White" InputScope="Default" Background="{x:Null}" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Left" Width="66" Grid.Row="1" Height="17" Text="Описание" Grid.Column="1" IsEnabled="False"/>
+        <Button x:Name="change" Grid.Column="1" Content="Изменить" HorizontalAlignment="Left" Margin="29,164,0,0" Grid.Row="1" VerticalAlignment="Top" Height="18" Width="59" Click="Button_Click_2"/>
         <Button Grid.Column="1" Content="Удалить" HorizontalAlignment="Left" Margin="121,164,0,0" Grid.Row="1" VerticalAlignment="Top" Height="18" Width="59" Click="Button_Click_3"/>
-        <TextBox x:Name="Change" Grid.Column="1" HorizontalAlignment="Left" Margin="24,148,0,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" Width="70" BorderBrush="Black" Height="13"/>
+        <TextBox x:Name="changeText" Grid.Column="1" HorizontalAlignment="Left" Margin="24,139,0,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" Width="70" BorderBrush="Black" Height="22" TextChanged="Change_TextChanged"/>
 
     </Grid>
 </Window>

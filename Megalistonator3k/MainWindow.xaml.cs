@@ -18,8 +18,6 @@ namespace Megalistonator3k
 
             Closing += Window_Closing;
             readSaves("savedData.txt");
-
-
         }
 
         private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -29,22 +27,38 @@ namespace Megalistonator3k
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            foldersList.Items.Add(folderName.Text);
-            titleFolders titleFolders = new titleFolders(addName.Text);
-            titleFoldersList.Add(titleFolders);
+            if (!string.IsNullOrEmpty(folderName.Text))
+            {
+                foldersList.Items.Add(folderName.Text);
+                titleFolders titleFolders = new titleFolders(addName.Text);
+                titleFoldersList.Add(titleFolders);
+                folderName.Text = null;
+            }
         }
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            titleListWin.Items.Add($"{addName.Text} {addDescr.Text}");
-            string a = foldersList.SelectedItem.ToString();
-            titleList titleList1 = new titleList(addName.Text, addDescr.Text, a);
-            titleListAdd.Add(titleList1);
+            if (foldersList.SelectedItem != null)
+            {
+                titleListWin.Items.Add($"{addName.Text} {addDescr.Text}");
+                string a = foldersList.SelectedItem.ToString();
+                titleList titleList1 = new titleList(addName.Text, addDescr.Text, a);
+                titleListAdd.Add(titleList1);
+                addDescr.Text = null;
+                addName.Text = null;
+            }
+            else
+            {
+                
+            }
         }
 
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-
+            //if(folderName.Text == null) 
+            //{
+            //    addFolder.IsEnabled = false;
+            //}
         }
         private void toSelect(string folderName)
         {
@@ -62,6 +76,7 @@ namespace Megalistonator3k
         {
             if (foldersList.SelectedItem != null)
             {
+                change.IsEnabled = true;
                 string selectedFolder = foldersList.SelectedItem.ToString();
                 toSelect(selectedFolder);
             }
@@ -111,50 +126,59 @@ namespace Megalistonator3k
         
         private void Button_Click_2(object sender, RoutedEventArgs e)
         {
-            foreach (var folder in titleFoldersList)
+            if (!string.IsNullOrEmpty((string?)foldersList.SelectedItem) && !string.IsNullOrEmpty(changeText.Text))
             {
-                if (folder.Name == foldersList.SelectedItem.ToString())
+                foreach (var folder in titleFoldersList)
                 {
-                    folder.Name = Change.Text;
+                    if (foldersList.SelectedItem == null) { continue; }
+                    if (folder.Name == foldersList.SelectedItem.ToString())
+                    {
+                        folder.Name = changeText.Text;
+                    }
                 }
-            }
-            foreach (var title in titleListAdd)
-            {
-                if (title.Folder == foldersList.SelectedItem.ToString())
+                foreach (var title in titleListAdd)
                 {
-                    title.Folder = Change.Text;
+                    if (title.Folder == foldersList.SelectedItem.ToString())
+                    {
+                        title.Folder = changeText.Text;
+                    }
                 }
-            }
 
-            // Обновите данные в списке foldersList
-            int selectedIndex = foldersList.SelectedIndex;
-            foldersList.Items[selectedIndex] = Change.Text;
+                int selectedIndex = foldersList.SelectedIndex;
+                foldersList.Items[selectedIndex] = changeText.Text;
+            }
         }
 
         private void Button_Click_3(object sender, RoutedEventArgs e)
         {
-
-            string selectedFolder = foldersList.SelectedItem.ToString();
-
-            // Найдите объект titleFolders в списке и удалите его
-            var folderToRemove = titleFoldersList.FirstOrDefault(folder => folder.Name == selectedFolder);
-            titleFoldersList.Remove(folderToRemove);
-
-
-            // Удалите выбранную папку из списка foldersList
-            foldersList.Items.Remove(selectedFolder);
-            for (int i = titleListAdd.Count - 1; i >= 0; i--)
+            if (!string.IsNullOrEmpty((string?)foldersList.SelectedItem))
             {
-                var title = titleListAdd[i];
-                if (title.Folder == selectedFolder)
+                string selectedFolder = foldersList.SelectedItem.ToString();
+
+                // Найдите объект titleFolders в списке и удалите его
+                var folderToRemove = titleFoldersList.FirstOrDefault(folder => folder.Name == selectedFolder);
+                titleFoldersList.Remove(folderToRemove);
+
+
+                // Удалите выбранную папку из списка foldersList
+                foldersList.Items.Remove(selectedFolder);
+                for (int i = titleListAdd.Count - 1; i >= 0; i--)
                 {
-                    titleListWin.Items.Clear();
-                    titleListAdd.RemoveAt(i);
-                    break;
+                    var title = titleListAdd[i];
+                    if (title.Folder == selectedFolder)
+                    {
+                        titleListWin.Items.Clear();
+                        titleListAdd.RemoveAt(i);
+                        break;
+                    }
                 }
             }
 
+        }
 
+        private void Change_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            
         }
     }
 }
