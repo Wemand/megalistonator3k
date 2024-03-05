@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Megalistonator3k"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="513">
+        Title="ML3K" Height="450" Width="513">
     <Grid RenderTransformOrigin="0.037,0.482" Margin="0,-4,0,0">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="6*"/>
