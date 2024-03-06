@@ -11,7 +11,8 @@ namespace Megalistonator3k
     public class titleFolders
     {
         public string Name { get; set; }
-        public titleFolders(string name) { Name = name; }
+        public List<titleList> includedTitles = new List<titleList> {};
+        public titleFolders(string name) { Name = name;}
     }
 
 }

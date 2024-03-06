@@ -7,17 +7,18 @@ namespace Megalistonator3k
     public partial class MainWindow : Window
     {
         private List<titleFolders> titleFoldersList;
-        private List<titleList> titleListAdd;
 
         public MainWindow()
         {
             InitializeComponent();
 
             titleFoldersList = new List<titleFolders>();
-            titleListAdd = new List<titleList>();
+            
 
             Closing += Window_Closing;
-            readSaves("savedData.txt");
+            readSaves("savedFolders.txt");
+            readSaves("savedTitles.txt");
+
         }
 
         private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -32,9 +33,8 @@ namespace Megalistonator3k
                 foldersList.Items.Add(folderName.Text);
                 titleFolders titleFolders = new titleFolders(addName.Text);
                 titleFoldersList.Add(titleFolders);
-                string a = folderName.Text;
-                titleList titleList1 = new titleList(" ", " ", a);
-                titleListAdd.Add(titleList1);
+                titleList titleList1 = new titleList(" ", " ");
+                titleFolders.includedTitles.Add(titleList1);
                 folderName.Text = null;
             }
         }
@@ -42,13 +42,17 @@ namespace Megalistonator3k
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
             if (foldersList.SelectedItem != null)
-            {
-                titleListWin.Items.Add($"{addName.Text} {addDescr.Text}");
-                string a = foldersList.SelectedItem.ToString();
-                titleList titleList1 = new titleList(addName.Text, addDescr.Text, a);
-                titleListAdd.Add(titleList1);
-                addDescr.Text = null;
-                addName.Text = null;
+            {foreach (var folder in titleFoldersList)
+                {
+                    if (folder.Name == foldersList.SelectedItem.ToString())
+                    {
+                        titleListWin.Items.Add($"{addName.Text} {addDescr.Text}");
+                        titleList titleList1 = new titleList(addName.Text, addDescr.Text);
+                        folder.includedTitles.Add(titleList1);
+                        addDescr.Text = null;
+                        addName.Text = null;
+                    }
+                }
             }
             else
             {
@@ -67,16 +71,17 @@ namespace Megalistonator3k
         {
 
             titleListWin.Items.Clear();
-            foreach (var titlelist in titleListAdd)
+            foreach(var folder in titleFoldersList)
             {
-                if (titlelist.Folder == folderName)
+                if (folder.Name == folderName)
                 {
-                    if (titlelist.Title != " " && titlelist.Description != " ") // это решение до введения порядковых чисел к папкам, чтобы скипать невидимый тайтл
+                    foreach (var titlelist in folder.includedTitles)
                     {
                         titleListWin.Items.Add($"{titlelist.Title} {titlelist.Description}");
                     }
                 }
             }
+           
         }
         private void ListofFolders_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -90,13 +95,24 @@ namespace Megalistonator3k
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             // Сохранение данных в текстовый файл
-            using (StreamWriter sw = new StreamWriter("savedData.txt"))
+            using (StreamWriter swFolders = new StreamWriter("savedFolders.txt"))
             {
-                    foreach (var title in titleListAdd)
+                foreach (var titlefolder in titleFoldersList)
                     {
-                        sw.WriteLine($"{title.Title}/{title.Description}/{title.Folder}");
+                        swFolders.WriteLine($"{titlefolder.Name}");
                     }
-                    sw.Flush();
+                    swFolders.Flush();
+            }
+            using (StreamWriter swTitles = new StreamWriter("savedTitles.txt"))
+            {
+                foreach (var titlefolder in titleFoldersList)
+                {
+                    foreach (var title in titlefolder.includedTitles)
+                    {
+                        swTitles.WriteLine($"{title.Title}/{title.Description}");
+                    }
+                    swTitles.Flush();
+                }
             }
         }
         private void readSaves(string fileName)
@@ -109,32 +125,49 @@ namespace Megalistonator3k
                     string line;
                     while ((line = sr.ReadLine()) != null)
                     {
+                        
                         string[] parts = line.Split('/');
-                        if (parts.Length == 1)
+                        if (parts[0] != " " && parts[1] != " ") // эта строчка тоже до введения порядковых номеров
                         {
-                            titleFolders titleFolder = new titleFolders(parts[0]);
-                            titleFoldersList.Add(titleFolder);
-                            foldersList.Items.Add(titleFolder.Name);
+                            if (parts.Length == 1)
+                            {
+                                titleFolders titleFolder = new titleFolders(parts[0]);
+                                titleFoldersList.Add(titleFolder);
+                                foldersList.Items.Add(titleFolder.Name);
+                            }
+                            //else if (parts.Length == 2)
+                            //{
+                            //    titleFolders titleFolder = new titleFolders(parts[1]);
+                            //    titleFoldersList.Add(titleFolder);
+                            //    foldersList.Items.Add(parts[1]);
+                            //    titleList title = new titleList(parts[0], parts[1], " ");
+                            //    titleListAdd.Add(title);
+
+                            //}
+                            else if (parts.Length == 3)
+                            {
+                                foreach (var folder in foldersList.Items)
+                                {
+                                    if (folder.ToString() == parts[2]) 
+                                    {
+                                        isInFolferList = true;
+                                    }
+                                }
+                                if (!isInFolferList)
+                                {
+                                    titleFolders titleFolder = new titleFolders(parts[2]);
+                                    titleFoldersList.Add(titleFolder);
+                                    foldersList.Items.Add(titleFolder.Name);
+                                }
+                                else { break; }
+                                titleList title = new titleList(parts[0], parts[1]);
+                                titleListAdd.Add(title);
+
+                            }
                         }
-                        //else if (parts.Length == 2)
-                        //{
-                        //    titleFolders titleFolder = new titleFolders(parts[1]);
-                        //    titleFoldersList.Add(titleFolder);
-                        //    foldersList.Items.Add(parts[1]);
-                        //    titleList title = new titleList(parts[0], parts[1], " ");
-                        //    titleListAdd.Add(title);
-
-                        //}
-                        else if (parts.Length == 3)
+                        else
                         {
-                            titleFolders titleFolder = new titleFolders(parts[2]);
-                            titleFoldersList.Add(titleFolder);
-
-                            foldersList.Items.Add(titleFolder.Name);
-
-                            titleList title = new titleList(parts[0], parts[1], parts[2]);
-                            titleListAdd.Add(title);
-
+                            continue;
                         }
                     }
                 }
@@ -153,14 +186,15 @@ namespace Megalistonator3k
                     {
                         folder.Name = changeText.Text;
                     }
-                }
-                foreach (var title in titleListAdd)
-                {
-                    if (title.Folder == foldersList.SelectedItem.ToString())
+                    foreach (var title in folder.includedTitles)
                     {
-                        title.Folder = changeText.Text;
+                        if (title.Folder == foldersList.SelectedItem.ToString())
+                        {
+                            title.Folder = changeText.Text;
+                        }
                     }
                 }
+                
 
                 int selectedIndex = foldersList.SelectedIndex;
                 foldersList.Items[selectedIndex] = changeText.Text;

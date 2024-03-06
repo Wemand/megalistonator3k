@@ -11,9 +11,9 @@ namespace Megalistonator3k
         public string Title { get; set; }
         public string Description { get; set; }
         public string Folder { get; set; }
-        public titleList(string title, string description, string folder)
+        public titleList(string title, string description)
         {
-            Title = title; Description = description; Folder = folder;
+            Title = title; Description = description; 
         }
 
     }
