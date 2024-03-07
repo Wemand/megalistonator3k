@@ -13,7 +13,7 @@ namespace Megalistonator3k
             InitializeComponent();
 
             titleFoldersList = new List<titleFolders>();
-            
+
 
             Closing += Window_Closing;
             readFolders("savedFolders.txt");
@@ -39,23 +39,23 @@ namespace Megalistonator3k
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            if (foldersList.SelectedItem != null && !string.IsNullOrEmpty(addName.Text) && !string.IsNullOrEmpty(addDescr.Text))
+            if (foldersList.SelectedItem != null && (!string.IsNullOrEmpty(addName.Text) || !string.IsNullOrEmpty(addDescr.Text)))
             {
-                
-                    foreach (var folder in titleFoldersList)
+
+                foreach (var folder in titleFoldersList)
+                {
+                    if (folder.Name == foldersList.SelectedItem.ToString())
                     {
-                        if (folder.Name == foldersList.SelectedItem.ToString())
-                        {
-                            titleListWin.Items.Add($"{addName.Text} {addDescr.Text}");
-                            titleList titleList1 = new titleList(addName.Text, addDescr.Text);
-                            folder.includedTitles.Add(titleList1);
-                            addDescr.Text = null;
-                            addName.Text = null;
-                        }
+                        titleListWin.Items.Add($"{addName.Text} {addDescr.Text}");
+                        titleList titleList1 = new titleList(addName.Text, addDescr.Text);
+                        folder.includedTitles.Add(titleList1);
+                        addDescr.Text = null;
+                        addName.Text = null;
                     }
-                
+                }
+
             }
-            
+
         }
 
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
@@ -69,7 +69,7 @@ namespace Megalistonator3k
         {
 
             titleListWin.Items.Clear();
-            foreach(var folder in titleFoldersList)
+            foreach (var folder in titleFoldersList)
             {
                 if (folder.Name == folderName)
                 {
@@ -79,7 +79,7 @@ namespace Megalistonator3k
                     }
                 }
             }
-           
+
         }
         private void ListofFolders_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -96,10 +96,10 @@ namespace Megalistonator3k
             using (StreamWriter swFolders = new StreamWriter("savedFolders.txt"))
             {
                 foreach (var titlefolder in titleFoldersList)
-                    {
-                        swFolders.WriteLine($"{titlefolder.Name}");
-                    }
-                    swFolders.Flush();
+                {
+                    swFolders.WriteLine($"{titlefolder.Name}");
+                }
+                swFolders.Flush();
             }
             using (StreamWriter swTitles = new StreamWriter("savedTitles.txt"))
             {
@@ -123,9 +123,9 @@ namespace Megalistonator3k
                     string line;
                     while ((line = sr.ReadLine()) != null)
                     {
-                            titleFolders titleFolder = new titleFolders(line);
-                            titleFoldersList.Add(titleFolder);
-                            foldersList.Items.Add(titleFolder.Name);
+                        titleFolders titleFolder = new titleFolders(line);
+                        titleFoldersList.Add(titleFolder);
+                        foldersList.Items.Add(titleFolder.Name);
                     }
                 }
             }
@@ -133,7 +133,7 @@ namespace Megalistonator3k
 
         private void AddTitleToFolder(titleList title, string folderName)
         {
-           foreach(var folder in titleFoldersList)
+            foreach (var folder in titleFoldersList)
             {
                 if (folder.Name == folderName)
                 {
@@ -182,15 +182,9 @@ namespace Megalistonator3k
                     {
                         folder.Name = changeText.Text;
                     }
-                    foreach (var title in folder.includedTitles)
-                    {
-                        if (title.Folder == foldersList.SelectedItem.ToString())
-                        {
-                            title.Folder = changeText.Text;
-                        }
-                    }
+ 
                 }
-                
+
 
                 int selectedIndex = foldersList.SelectedIndex;
                 foldersList.Items[selectedIndex] = changeText.Text;
@@ -218,22 +212,57 @@ namespace Megalistonator3k
                         for (int i = folder.includedTitles.Count - 1; i >= 0; i--)
                         {
                             var title = folder.includedTitles[i];
-                            if (title.Folder == selectedFolder)
-                            {
+                            
                                 folder.includedTitles.RemoveAt(i);
                                 break;
-                            }
+                            
                         }
                     }
                 }
-                
+
             }
 
         }
 
         private void Change_TextChanged(object sender, TextChangedEventArgs e)
         {
+
+        }
+        private void removeTitle(string title)
+        {
             
+           foreach (var folder in titleFoldersList)
+            {
+                if(folder.Name == foldersList.SelectedItem.ToString())
+                {
+                    foreach (var title1 in folder.includedTitles)
+                    {
+                        if (title1.Title + " " + title1.Description == title)
+                        {
+                            folder.includedTitles.Remove(title1);
+                            titleListWin.Items.Clear();
+                            for (int i = folder.includedTitles.Count; i > 0; i--)
+                            {
+                                titleListWin.Items.Add($"{folder.includedTitles[i].Title} {folder.includedTitles[i].Description}");
+                            }
+                        }
+                        break;
+
+                    }
+                }
+            }
+                    
+                
+            
+        }
+           
+
+        private void Button_Click_4(object sender, RoutedEventArgs e)
+        {
+            if (titleListWin.SelectedItem != null)
+            {
+                removeTitle(titleListWin.SelectedItem.ToString());
+            }
         }
     }
 }
