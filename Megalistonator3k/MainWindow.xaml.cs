@@ -230,32 +230,28 @@ namespace Megalistonator3k
         }
         private void removeTitle(string title)
         {
-            
-           foreach (var folder in titleFoldersList)
+            foreach (var folder in titleFoldersList)
             {
-                if(folder.Name == foldersList.SelectedItem.ToString())
+                if (folder.Name == foldersList.SelectedItem.ToString())
                 {
-                    foreach (var title1 in folder.includedTitles)
+                    var titlesToRemove = folder.includedTitles.Where(t => t.Title + " " + t.Description == title).ToList();
+                    foreach (var titleToRemove in titlesToRemove)
                     {
-                        if (title1.Title + " " + title1.Description == title)
-                        {
-                            folder.includedTitles.Remove(title1);
-                            titleListWin.Items.Clear();
-                            for (int i = folder.includedTitles.Count; i > 0; i--)
-                            {
-                                titleListWin.Items.Add($"{folder.includedTitles[i].Title} {folder.includedTitles[i].Description}");
-                            }
-                        }
-                        break;
-
+                        folder.includedTitles.Remove(titleToRemove);
                     }
+
+                    titleListWin.Items.Clear();
+                    for (int i = folder.includedTitles.Count - 1; i >= 0; i--)
+                    {
+                        titleListWin.Items.Add($"{folder.includedTitles[i].Title} {folder.includedTitles[i].Description}");
+                    }
+
+                    // Exit the loop after removing the title
+                    break;
                 }
             }
-                    
-                
-            
         }
-           
+
 
         private void Button_Click_4(object sender, RoutedEventArgs e)
         {
