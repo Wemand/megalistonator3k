@@ -26,15 +26,10 @@ namespace Megalistonator3k
 
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void addToFolderList(object sender, RoutedEventArgs e)
         {
-            if (!string.IsNullOrEmpty(folderName.Text))
-            {
-                foldersList.Items.Add(folderName.Text);
-                titleFolders titleFolders = new titleFolders(folderName.Text);
-                titleFoldersList.Add(titleFolders);
-                folderName.Text = null;
-            }
+            titleFolders titleFolders = new titleFolders(folderName.Text);
+            titleFolders.addFolder(folderName.Text, foldersList, titleFoldersList, titleFolders);
         }
 
         private void Button_Click_1(object sender, RoutedEventArgs e)

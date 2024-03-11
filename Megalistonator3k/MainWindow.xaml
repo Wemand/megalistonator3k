@@ -17,7 +17,7 @@
             <RowDefinition Height="72*"/>
         </Grid.RowDefinitions>
         <ListBox x:Name="foldersList" HorizontalAlignment="Left" Height="299" Margin="9,30,0,0" VerticalAlignment="Top" Width="200" d:ItemsSource="{d:SampleData ItemCount=0}" SelectionChanged="ListofFolders_SelectionChanged" RenderTransformOrigin="0.632,0.212" Grid.RowSpan="2" Grid.Column="1"/>
-        <Button x:Name="addFolder" Content="Добавить" HorizontalAlignment="Left" Margin="9,10,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.434,-0.853" Click="Button_Click" Grid.Column="1"/>
+        <Button x:Name="addFolder" Content="Добавить" HorizontalAlignment="Left" Margin="9,10,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.434,-0.853" Click="addToFolderList" Grid.Column="1"/>
         <TextBox x:Name="folderName" Margin="66,11,0,0" TextChanged="TextBox_TextChanged" BorderBrush="Black" InputScope="Default" Background="{x:Null}" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Left" Width="143" Grid.Column="1"/>
         <TextBox x:Name="addDescr" Margin="368,139,0,0" TextChanged="TextBox_TextChanged" BorderBrush="Black" InputScope="Default" Background="{x:Null}" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Left" Width="110" Grid.Row="1" Grid.Column="1"/>
         <TextBox x:Name="addName" Margin="234,139,0,0" TextChanged="TextBox_TextChanged" BorderBrush="Black" InputScope="Default" Background="{x:Null}" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Left" Width="112" Grid.Row="1" Grid.Column="1"/>
